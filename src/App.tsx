@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { createGlobalStyle } from "styled-components";
-import ToDoList from './ToDoList';
+import ToDoList from './components/ToDoList';
 
 // Reset CSS
 const GlobalStyle = createGlobalStyle`
