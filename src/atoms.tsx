@@ -1,10 +1,16 @@
 import {atom, selector} from 'recoil';
 
-type categories = "TO_DO" | "DOING" | "DONE";
+export enum Categories {
+  "TO_DO", // 0, "TO_DO" = "TO_DO"를 사용하여 값 변경 가능함.
+  "DOING", // 1
+  "DONE" // 2
+};
+
+// type Categories = "TO_DO" | "DOING" | "DONE";
 
 export interface IToDo {
   text: string;
-  category: categories;// 카테고리: to do(할일), doing(하고있는일), done(한일)
+  category: Categories;// 카테고리: to do(할일), doing(하고있는일), done(한일)
   id: number;
 }
 
@@ -14,9 +20,9 @@ export const toDoState = atom<IToDo[]>({
 });
 
 /* 사용자가 현재 선택한 카테고리를 저장하는 state */
-export const categoryState = atom<categories>({
+export const categoryState = atom<Categories>({
   key: "category",
-  default: "TO_DO"
+  default: Categories.TO_DO
 });
 
 /* 카테고리에 따라 하나의 배열만 반환. */

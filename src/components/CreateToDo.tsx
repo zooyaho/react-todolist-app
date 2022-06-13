@@ -1,6 +1,6 @@
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useForm } from "react-hook-form";
-import { categoryState, toDoState } from '../atoms';
+import { Categories, categoryState, toDoState } from '../atoms';
 
 interface IForm {
   todo: string;
@@ -25,9 +25,9 @@ const CreateToDo = () => {
   return (
     <form style={{ display: "flex", flexDirection: "column", width: "200px" }} onSubmit={handleSubmit(handleValid)}>
       <select value={category} onInput={InputHandler}>
-        <option value="TO_DO">To Do</option>
-        <option value="DOING">Doing</option>
-        <option value="DONE">Done</option>
+        <option value={Categories.TO_DO}>To Do</option>
+        <option value={Categories.DOING}>Doing</option>
+        <option value={Categories.DONE}>Done</option>
       </select>
       <input {...register("todo", { required: "Please write a To Do.", minLength: { value: 5, message: "length is short!" } })} placeholder="Write a to do" />
       <span>{errors?.todo?.message}</span>
