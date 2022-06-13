@@ -57,7 +57,7 @@ table {
 }
 body {
   font-family: 'Roboto Mono', monospace;
-  background-color:#ccc;
+  background-color: #fffbe5;
   color:black;
 }
 a {

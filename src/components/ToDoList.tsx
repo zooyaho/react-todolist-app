@@ -2,17 +2,52 @@ import CreateToDo from './CreateToDo';
 import { useRecoilValue } from 'recoil';
 import { toDoSelector } from '../atoms';
 import ToDo from './ToDo';
+import styled from 'styled-components';
+
+const Header = styled.header`
+  height: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:center;
+  h1 {
+    color: #e67e22;
+    font-size: 28px;
+  }
+`;
+
+const MainSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:center;
+`;
+
+const ListSection = styled.section`
+  width: 90%;
+  margin-top: 30px;
+  ul {
+    width: 100%;
+  }
+`;
 
 const ToDoList = () => {
   const toDos = useRecoilValue(toDoSelector);
-  
+
   return (
-    <div>
-      <h1>To Dos</h1>
-      <hr />
-      <CreateToDo />
-      {toDos?.map((toDo) => (<ToDo key={toDo.id} {...toDo} />))}
-    </div>
+    <>
+      <Header>
+        <h1>To Dos</h1>
+      </Header>
+      <MainSection>
+        <CreateToDo />
+        <ListSection>
+          <ul>
+            {toDos?.map((toDo) => (<ToDo key={toDo.id} {...toDo} />))}
+          </ul>
+        </ListSection>
+      </MainSection>
+    </>
   );
 };
 

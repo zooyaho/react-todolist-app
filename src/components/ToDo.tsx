@@ -1,5 +1,42 @@
 import { IToDo, toDoState, Categories } from "../atoms";
 import { useSetRecoilState } from "recoil";
+import styled from 'styled-components';
+
+const List = styled.li`
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  button:last-child {
+    margin-right: 0px;
+    border: 2px solid green;
+    border-radius: 10px;
+  }
+`;
+
+const TextWrap = styled.div`
+  width: 40%;
+  height: 100%;
+  border-bottom: 2px solid #f0932b;
+  padding-bottom: 12px;
+  margin-right: 10px;
+  background-color: white;
+  border-radius: 10px;
+`;
+
+const Button = styled.button`
+  background-color: transparent;
+  border: 2px solid #f0932b;
+  border-radius: 15px;
+  color: #f0932b;
+  height: 30px;
+  margin-right: 5px;
+  cursor: pointer;
+  &:hover {
+    border: 2px solid green;
+    color: green;
+  }
+`;
 
 const ToDo = ({ text, id, category }: IToDo) => {
   const setToDos = useSetRecoilState(toDoState);
@@ -16,18 +53,21 @@ const ToDo = ({ text, id, category }: IToDo) => {
   }
 
   return (
-    <li>
-      <span>{text}</span>
+    <List>
+      <TextWrap>
+        <span>✏️ {text}</span>
+      </TextWrap>
       {category !== Categories.DOING && (
-        <button name={Categories.DOING.toString()} onClick={ClickHandler}>Doing</button>
+        <Button name={Categories.DOING.toString()} onClick={ClickHandler}>Doing</Button>
       )}
       {category !== Categories.TO_DO && (
-        <button name={Categories.TO_DO.toString()} onClick={ClickHandler}>To Do</button>
+        <Button name={Categories.TO_DO.toString()} onClick={ClickHandler}>To Do</Button>
       )}
       {category !== Categories.DONE && (
-        <button name={Categories.DONE.toString()} onClick={ClickHandler}>Done</button>
+        <Button name={Categories.DONE.toString()} onClick={ClickHandler}>Done</Button>
       )}
-    </li>
+      <Button>🗑</Button>
+    </List>
   );
 };
 export default ToDo;
