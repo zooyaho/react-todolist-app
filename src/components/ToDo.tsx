@@ -4,18 +4,20 @@ import { useSetRecoilState } from "recoil";
 const ToDo = ({ text, id, category }: IToDo) => {
   const setToDos = useSetRecoilState(toDoState);
 
-  const ClickHandler = (event:React.MouseEvent<HTMLButtonElement>) => {
-    const {currentTarget:{name}} = event;
-    console.log(name);
+  const ClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const { currentTarget: { name } } = event;
 
-    // 여기서 id를 가지고 수정해야함~!
-    // setToDos((oldToDos)=>[...oldToDos]);
+    setToDos((oldToDos) => {
+      // 원래 있던 todo를 지우고 새로운 todo를 반환 함.
+      const targetIndex = oldToDos.findIndex(toDo => toDo.id === id);
+      const newToDo = { text, id, category: name as any };
+      return [...oldToDos.slice(0, targetIndex), newToDo, ...oldToDos.slice(targetIndex + 1)];
+    });
   }
 
   return (
     <li>
       <span>{text}</span>
-      {/* 인자로 넘어가기 위해서 익명함수를 사용해야함!! */}
       {category !== "DOING" && (
         <button name="DOING" onClick={ClickHandler}>Doing</button>
       )}
