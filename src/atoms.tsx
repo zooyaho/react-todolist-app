@@ -1,8 +1,10 @@
 import {atom, selector} from 'recoil';
 
+type categories = "TO_DO" | "DOING" | "DONE";
+
 export interface IToDo {
   text: string;
-  category: "TO_DO" | "DOING" | "DONE";// 카테고리: to do(할일), doing(하고있는일), done(한일)
+  category: categories;// 카테고리: to do(할일), doing(하고있는일), done(한일)
   id: number;
 }
 
@@ -12,7 +14,7 @@ export const toDoState = atom<IToDo[]>({
 });
 
 /* 사용자가 현재 선택한 카테고리를 저장하는 state */
-export const categoryState = atom({
+export const categoryState = atom<categories>({
   key: "category",
   default: "TO_DO"
 });
