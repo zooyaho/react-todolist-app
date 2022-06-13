@@ -1,6 +1,7 @@
 import { IToDo, toDoState, Categories } from "../atoms";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from 'styled-components';
+import React from "react";
 
 const List = styled.li`
   margin-top: 15px;
@@ -41,7 +42,8 @@ const Button = styled.button`
 const ToDo = ({ text, id, category }: IToDo) => {
   const setToDos = useSetRecoilState(toDoState);
 
-  const ClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+  // category 변경 핸들러
+  const categoryChangeHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     const { currentTarget: { name } } = event;
 
     setToDos((oldToDos) => {
@@ -52,21 +54,28 @@ const ToDo = ({ text, id, category }: IToDo) => {
     });
   }
 
+  // 항목 삭제 핸들러
+  const categoryDeleteHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setToDos((oldToDos) => {
+      return [...oldToDos.filter(toDo=> toDo.id !== id)];
+    });
+  }
+
   return (
     <List>
       <TextWrap>
         <span>✏️ {text}</span>
       </TextWrap>
       {category !== Categories.DOING && (
-        <Button name={Categories.DOING.toString()} onClick={ClickHandler}>Doing</Button>
+        <Button name={Categories.DOING} onClick={categoryChangeHandler}>Doing</Button>
       )}
       {category !== Categories.TO_DO && (
-        <Button name={Categories.TO_DO.toString()} onClick={ClickHandler}>To Do</Button>
+        <Button name={Categories.TO_DO} onClick={categoryChangeHandler}>To Do</Button>
       )}
       {category !== Categories.DONE && (
-        <Button name={Categories.DONE.toString()} onClick={ClickHandler}>Done</Button>
+        <Button name={Categories.DONE} onClick={categoryChangeHandler}>Done</Button>
       )}
-      <Button>🗑</Button>
+      <Button onClick={categoryDeleteHandler}>🗑</Button>
     </List>
   );
 };

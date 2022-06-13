@@ -1,9 +1,9 @@
 import {atom, selector} from 'recoil';
 
 export enum Categories {
-  "TO_DO", // 0, "TO_DO" = "TO_DO"를 사용하여 값 변경 가능함.
-  "DOING", // 1
-  "DONE" // 2
+  "TO_DO" = "TO_DO", // 0, "TO_DO" = "TO_DO"를 사용하여 값 변경 가능함.
+  "DOING" = "DOING", // 1
+  "DONE" = "DONE" // 2
 };
 
 // type Categories = "TO_DO" | "DOING" | "DONE";
