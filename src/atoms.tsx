@@ -17,7 +17,19 @@ export const categoryState = atom({
   default: "TO_DO"
 });
 
-/* 각각의 카테고리별로 todo를 분리하여 state에 저장할것임. */
+/* 카테고리에 따라 하나의 배열만 반환. */
+export const toDoSelector = selector({
+  key: "toDoSelector",
+  get:({get})=>{
+    const toDos = get(toDoState);
+    const category = get(categoryState);
+    return (
+      toDos.filter(toDo => toDo.category === category)
+    );
+  }
+});
+
+/* 각각의 카테고리별로 todo를 분리하여 반환 */
 /*
 export const toDoSelector = selector({
   // 인자로 객체가 들어가며, 객체의 프로퍼티로 key와 get함수가 포함됨.
