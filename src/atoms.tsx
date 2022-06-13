@@ -11,7 +11,14 @@ export const toDoState = atom<IToDo[]>({
   default: []
 });
 
+/* 사용자가 현재 선택한 카테고리를 저장하는 state */
+export const categoryState = atom({
+  key: "category",
+  default: "TO_DO"
+});
+
 /* 각각의 카테고리별로 todo를 분리하여 state에 저장할것임. */
+/*
 export const toDoSelector = selector({
   // 인자로 객체가 들어가며, 객체의 프로퍼티로 key와 get함수가 포함됨.
   // get메서드는 인자로 get함수가 들어감...이게모야
@@ -28,3 +35,4 @@ export const toDoSelector = selector({
     ]);
   }
 });
+*/
