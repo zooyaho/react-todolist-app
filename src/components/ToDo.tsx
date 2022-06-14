@@ -60,7 +60,11 @@ const ToDo = ({ text, id, category }: IToDo) => {
 
   // 항목 삭제 핸들러
   const categoryDeleteHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    
     setToDos((oldToDos) => {
+      // 삭제한 todo localStorage에 업데이트
+      window.localStorage.setItem("toDos", JSON.stringify([...oldToDos.filter(toDo => toDo.id !== id)]));
+
       return [...oldToDos.filter(toDo => toDo.id !== id)];
     });
   }
