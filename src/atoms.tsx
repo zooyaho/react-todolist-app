@@ -1,4 +1,4 @@
-import {atom, selector} from 'recoil';
+import { atom, selector } from 'recoil';
 
 export enum Categories {
   "TO_DO" = "TO_DO", // 0, "TO_DO" = "TO_DO"를 사용하여 값 변경 가능함.
@@ -14,10 +14,21 @@ export interface IToDo {
   id: number;
 }
 
-export const toDoState = atom<IToDo[]>({ 
-  key: "todo",
-  default: []
+if (!window.localStorage.getItem("toDos")) {
+  // local에 "toDos"이 없을 경우, 생성
+  window.localStorage.setItem("toDos", JSON.stringify([]));
+}
+let output = localStorage.getItem("toDos");
+let localData = JSON.parse(output as any);
+export const toDoState = atom<IToDo[]>({
+  key: "toDo",
+  default: localData,
 });
+
+// export const toDoState = atom<IToDo[]>({ 
+//   key: "todo",
+//   default: []
+// });
 
 /* 사용자가 현재 선택한 카테고리를 저장하는 state */
 export const categoryState = atom<Categories>({
@@ -28,12 +39,12 @@ export const categoryState = atom<Categories>({
 /* 카테고리에 따라 하나의 배열만 반환. */
 export const toDoSelector = selector({
   key: "toDoSelector",
-  get:({get})=>{
+  get: ({ get }) => {
     const toDos = get(toDoState);
     const category = get(categoryState);
-    return (
-      toDos.filter(toDo => toDo.category === category)
-    );
+    if (toDos) {
+      return toDos.filter(toDo => toDo.category === category);
+    } 
   }
 });
 

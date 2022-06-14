@@ -1,5 +1,5 @@
 import { IToDo, toDoState, Categories } from "../atoms";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import styled from 'styled-components';
 import React from "react";
 
@@ -46,7 +46,7 @@ const ToDo = ({ text, id, category }: IToDo) => {
   const categoryChangeHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     const { currentTarget: { name } } = event;
 
-    setToDos((oldToDos) => {
+    setToDos((oldToDos: any[]) => {
       // 원래 있던 todo를 지우고 새로운 todo를 반환 함.
       const targetIndex = oldToDos.findIndex(toDo => toDo.id === id);
       const newToDo = { text, id, category: name as any };

@@ -1,7 +1,8 @@
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useForm } from "react-hook-form";
-import { Categories, categoryState, toDoState } from '../atoms';
+import { Categories, categoryState, IToDo, toDoState } from '../atoms';
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
 
 const Form = styled.form`
   display: flex;
@@ -61,18 +62,40 @@ interface IForm {
 
 const CreateToDo = () => {
   const setToDos = useSetRecoilState(toDoState);
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<IForm>();
-
   const [category, setCategory] = useRecoilState(categoryState);
+  const [localData, setLocalData] = useState<IToDo[]>();
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<IForm>();
+  let randomId = 0;
 
+  useEffect(() => {
+    // console.log(localData);
+    if (localData) {
+      // localData가 있을 경우 localStorage 업데이트
+      window.localStorage.setItem("toDos", JSON.stringify(localData));
+    }
+  }, [localData]);
+
+  /* 카테고리 state 설정 핸들러 */
   const InputHandler = (event: React.FormEvent<HTMLSelectElement>) => {
     setCategory(event.currentTarget.value as any);
   }
-  // console.log(category);
 
+  /* handleSubmit의 콜백함수 */
   const handleValid = ({ todo }: IForm) => {
-    setToDos(oldToDos => [{ text: todo, id: Date.now(), category: category }, ...oldToDos]);
-    setValue("todo", ""); // input 요소 reset
+    // toDo id 생성
+    randomId = Math.floor(Math.random() * 10000);
+
+    // toDoState에 저장
+    setToDos((oldToDos) => {
+      setLocalData([{ text: todo, id: randomId, category: category },
+      ...oldToDos]);
+      // console.log("localData 추가 됨.", localData);
+      return ([{ text: todo, id: randomId, category: category },
+        ...oldToDos]);
+    });
+
+    // input 요소 reset
+    setValue("todo", "");
   }
 
   return (
@@ -83,7 +106,13 @@ const CreateToDo = () => {
         <option value={Categories.DONE}>Done</option>
       </select>
       <InputWrap>
-        <input {...register("todo", { required: "Please write a To Do.", minLength: { value: 5, message: "length is short!" } })} placeholder="Write a to do" />
+        <input {...register("todo",
+          {
+            required: "Please write a To Do.",
+            minLength: { value: 5, message: "length is short!" }
+          })}
+          placeholder="Write a to do"
+        />
         <span>{errors?.todo?.message}</span>
       </InputWrap>
       <Button>Add</Button>
