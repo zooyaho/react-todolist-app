@@ -50,6 +50,10 @@ const ToDo = ({ text, id, category }: IToDo) => {
       // 원래 있던 todo를 지우고 새로운 todo를 반환 함.
       const targetIndex = oldToDos.findIndex(toDo => toDo.id === id);
       const newToDo = { text, id, category: name as any };
+
+      // 변경된 카테고리 localStorage에 업데이트
+      window.localStorage.setItem("toDos", JSON.stringify([...oldToDos.slice(0, targetIndex), newToDo, ...oldToDos.slice(targetIndex + 1)]));
+
       return [...oldToDos.slice(0, targetIndex), newToDo, ...oldToDos.slice(targetIndex + 1)];
     });
   }
@@ -57,7 +61,7 @@ const ToDo = ({ text, id, category }: IToDo) => {
   // 항목 삭제 핸들러
   const categoryDeleteHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     setToDos((oldToDos) => {
-      return [...oldToDos.filter(toDo=> toDo.id !== id)];
+      return [...oldToDos.filter(toDo => toDo.id !== id)];
     });
   }
 
